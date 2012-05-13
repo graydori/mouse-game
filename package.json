@@ -1,0 +1,7 @@
+{   
+    "name": "html5-workshop",
+    "version": "0.0.2",
+    "dependencies": {
+        "mime":"1.2.5"
+  }
+}
