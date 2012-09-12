@@ -1,5 +1,3 @@
-io.setPath('/js/socket/');
-
 function ratelimit(fn, ms) {
   var last = (new Date()).getTime();
   return (function() {
@@ -63,21 +61,14 @@ $(document).ready(function(){
 
   $('form#chat input#email').focus();
   $('form#chat').submit(function(){
-    if($('form#chat input#email').val() == '') {
-      return alert('You forgot to fill in your e-mail address.');
-    }
-
     socket.send(JSON.stringify({
       action: 'speak',
-      email: $('form#chat input#email').val(),
       text: $('form#chat input#text').val().substring(0, 140)
     }));
 
     email: $('form#chat input#text').val('')
     return false;
   })
-
-  $('body').append('<span id="preview"><span style="display:none;" class="chat"/></span>');
 });
 
 $(document).mousemove(
@@ -98,10 +89,9 @@ $(document).mousemove(
 );
 
 var disabled = false,
-    socket = new io.Socket('jeffkreeftmeijer.com', {port: 8000}),
+    socket = new io.connect('http://localhost'),
     timeouts = {};
 
-if(socket.connect()){
   socket.on('message', function(data){
     data = JSON.parse(data);
     if(data['action'] == 'close'){
@@ -116,5 +106,4 @@ if(socket.connect()){
       move(data);
     };
   });
-};
 

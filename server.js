@@ -6,8 +6,9 @@ var sys = require('sys'),
     socket = io.listen(server),
     json = JSON.stringify,
     log = sys.puts,
-    port = process.env.PORT;
-    
+    port = 9999;//process.env.PORT;
+
+log (port);    
 server.listen(port);
 
 socket.on('connection', function(client){
@@ -31,10 +32,10 @@ socket.on('connection', function(client){
     }
     
     request.id = client.sessionId
-    client.broadcast(json(request));
+    socket.broadcast.send(json(request));
   });
 
   client.on('disconnect', function(){
-    client.broadcast(json({'id': client.sessionId, 'action': 'close'}));
+    socket.broadcast.send(json({'id': client.sessionId, 'action': 'close'}));
   });
 });
